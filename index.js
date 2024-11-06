@@ -1,8 +1,10 @@
+import 'dotenv/config'
+
 import express from 'express'
 
 const app = express()
 
-const port = 5000
+const port = process.env.PORT || 6000
 
 app.use(express.json())
 //get data
@@ -17,6 +19,7 @@ let nextId = 1
 
 // post data to database
 app.post('/teas', (req,res) => {
+    console/log("POST")
     const {name,price} = req.body
     const newTea = {id:nextId++,name,price}
 
@@ -30,10 +33,10 @@ app.get('/teas' ,(req,res) => {
 
 // get data with id
 app.get('/teas/:id',(req,res) => {
-  teaData.find(tea => tea.id === parseInt(req.params.id))
+  teaData.find(t => t.id === parseInt(req.params.id))
 
   if(!tea){
-    return res.status(404).send('name not found');
+    return res.status(404).send('data not found');
   }
   res.status(200).send(teaData)
 })
@@ -41,7 +44,7 @@ app.get('/teas/:id',(req,res) => {
 //update tea- data
 
 app.put('/teas/:id',(req,res) => {
-    const tea =  teaData.find(tea => tea.id === parseInt(req.params.id))
+    const tea =  teaData.find(t => t.id === parseInt(req.params.id))
 
     if(!tea){
         return res.status(404).send('name not found');
